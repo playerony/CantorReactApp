@@ -1,6 +1,6 @@
 import fetch from 'cross-fetch'
 
-let apiUrl = 'http://localhost:8000/user'
+let apiUrl = 'http://localhost:8000/cantor/user'
 
 export function removeUser(id) {
   return fetch(apiUrl + '/remove/' + id)
