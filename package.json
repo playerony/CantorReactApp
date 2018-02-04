@@ -1,0 +1,30 @@
+{
+  "name": "cantorreactapp",
+  "version": "1.0.0",
+  "description": "CantorReactApp",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --hot"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/playerony/CantorReactApp.git"
+  },
+  "author": "Paweł Wojtasiński",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/playerony/CantorReactApp/issues"
+  },
+  "homepage": "https://github.com/playerony/CantorReactApp#readme",
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2016": "^6.24.1",
+    "babel-preset-es2018": "^1.0.0",
+    "babel-preset-react": "^6.24.1",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.11.1"
+  }
+}
