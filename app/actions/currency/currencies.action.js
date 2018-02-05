@@ -2,8 +2,8 @@ import {
     REQUEST_CURRENCIES,
     RECEIVE_CURRENCIES,
     FAILURE_CURRENCIES
-} from '../constants/currencies.constants'
-import * as currenciesService from '../services/currencies.service.js'
+} from '../../constants/currencies.constants'
+import * as currenciesService from '../../services/currencies.service.js'
 
 function requestCurrencies() {
   return {

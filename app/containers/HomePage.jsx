@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {
   fetchCurrencies
-} from '../actions/currencies.action.js'
+} from '../actions/currency/currencies.action.js'
 
 class HomePage extends Component {
   constructor(props) {
