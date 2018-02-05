@@ -3,7 +3,7 @@ import fetch from 'cross-fetch'
 let apiUrl = 'http://localhost:8000/cantor/userCurrency'
 
 export function getUserCurrency(userCurrencyid) {
-  return fetch(apiUrl + '/get/' + userCurrencyid)
+  return fetch(apiUrl + '/' + userCurrencyid)
     .then(response => {
       return response.json()
     })
@@ -32,7 +32,7 @@ export function saveUserCurrency(userCurrency) {
     })
   }
 
-  return fetch(apiUrl + '/save', requestOptions)
+  return fetch(apiUrl, requestOptions)
     .then(response => {
       return response.json()
     })

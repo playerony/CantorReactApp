@@ -3,7 +3,12 @@ import fetch from 'cross-fetch'
 let apiUrl = 'http://localhost:8000/cantor/user'
 
 export function removeUser(id) {
-  return fetch(apiUrl + '/remove/' + id)
+  const requestOptions = {
+    method: 'DELETE',
+    mode: 'no-cors'
+  }
+
+  return fetch(apiUrl + '/' + id)
     .then(response => {
       return response.json()
     })
@@ -18,7 +23,6 @@ export function saveUser(user) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      userId: user.userId,
       firstName: user.firstName,
       lastName: user.lastName,
       username: user.username,
@@ -29,26 +33,39 @@ export function saveUser(user) {
     })
   }
 
-  return fetch(apiUrl + '/save', requestOptions)
+  return fetch(apiUrl, requestOptions)
     .then(response => {
       return response.json()
     })
 }
 
-export function getUser(username) {
+export function updateUser(user) {
   const requestOptions = {
-    method: 'POST',
+    method: 'PUT',
     mode: 'no-cors',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      username: username
+      firstName: user.firstName,
+      lastName: user.lastName,
+      username: user.username,
+      password: user.password,
+      email: user.email,
+      balance: user.balance,
+      roleId: user.roleId
     })
   }
-  
-  return fetch(apiUrl + '/get', requestOptions)
+
+  return fetch(apiUrl + '/' + user.userId, requestOptions)
+    .then(response => {
+      return response.json()
+    })
+}
+
+export function getUser(username) {
+  return fetch(apiUrl + '/' + username, requestOptions)
     .then(response => {
       return response.json()
     })
