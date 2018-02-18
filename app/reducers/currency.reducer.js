@@ -1,36 +1,33 @@
 import {
-    REQUEST_CURRENCIES,
-    RECEIVE_CURRENCIES,
-    FAILURE_CURRENCIES
-} from '../constants/currencies.constants'
+    REQUEST_CURRENCY,
+    RECEIVE_CURRENCY,
+    FAILURE_CURRENCY
+} from '../constants/currencies.constants.js'
 
-export function fetchCurrencies(
+export function fetchCurrency(
     state = {
         isFetching: false,
         error: false,
-        payload: []
+        item: null
     },
     action
 ) {
     switch (action.type) {
-        case REQUEST_CURRENCIES:
+        case REQUEST_CURRENCY:
             return Object.assign({}, state, {
                 isFetching: true,
                 error: false
             })
-        case RECEIVE_CURRENCIES:
+        case RECEIVE_CURRENCY:
             return Object.assign({}, state, {
                 isFetching: false,
                 error: false,
-                payload: action.payload.items,
-                publicationDate: action.payload.publicationDate,
+                item: action.currency,
                 lastUpdated: action.receivedAt
             })
-        case FAILURE_CURRENCIES:
+        case FAILURE_CURRENCY:
             return Object.assign({}, state, {
-                error: true,
-                isFetching: false,
-                message: action.message
+                error: true
             })
         default:
             return state
