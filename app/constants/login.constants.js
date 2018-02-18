@@ -1,0 +1,5 @@
+export const REQUEST_LOGIN = 'REQUEST_LOGIN'
+export const RECEIVE_LOGIN = 'RECEIVE_LOGIN'
+export const FAILURE_LOGIN = 'FAILURE_LOGIN'
+
+export const LOGOUT = 'LOGOUT'
