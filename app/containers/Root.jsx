@@ -4,9 +4,8 @@ import configureStore from '../configureStore'
 
 import {
     Switch,
-    Route,
-    Link
-} from 'react-router-dom';
+    Route
+} from 'react-router-dom'
 
 import HomePage from './HomePage.jsx'
 import NavigationBar from './NavigationBar.jsx'
@@ -21,10 +20,12 @@ class Root extends Component {
                 <div>
                     <NavigationBar />
                     
-                    <Switch>
-                        <Route exact path='/' component={HomePage}/>
-                        <Route path='/login' component={LoginPage}/>
-                    </Switch>
+                    <div>
+                        <Switch>
+                            <Route exact path='/' component={LoginPage}/>
+                            <Route path='/home' component={HomePage}/>
+                        </Switch>
+                    </div>
                 </div>
             </Provider>
         )

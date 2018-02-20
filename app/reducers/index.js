@@ -10,8 +10,6 @@ import {
     sellUserCurrency
 } from './userCurrencies.reducer.js'
 
-import { routerReducer } from 'react-router-redux'
-
 const rootReducer = combineReducers({
     fetchCurrencies,
     fetchCurrency,
@@ -19,8 +17,7 @@ const rootReducer = combineReducers({
     insertUserCurrency,
     buyUserCurrency,
     sellUserCurrency,
-    login,
-    routerReducer
+    login
 })
 
 export default rootReducer

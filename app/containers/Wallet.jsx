@@ -8,34 +8,30 @@ import {
 import {
     sellUserCurrency
 } from '../actions/userCurrencies/update.action.js'
-import {
-    login
-} from '../actions/login/login.action.js'
 import UserCurrencyTable from '../components/UserCurrencyTable.jsx'
 
 class Wallet extends Component {
     constructor(props) {
         super(props)
-        this.handleRefreshClick = this.handleRefreshClick.bind(this)
+        this.handleRefresh = this.handleRefresh.bind(this)
         this.handleSellUserCurrency = this.handleSellUserCurrency.bind(this)
     }
 
     componentDidMount() {
         const { dispatch, login } = this.props
-        console.log(login)
-        dispatch(fetchUserCurrencies(login.id))
+        dispatch(fetchUserCurrencies(login.payload.id))
+
+        setInterval(this.handleRefresh(), 500);
     }
 
     handleChange() {
         const { dispatch, login } = this.props
-        dispatch(fetchUserCurrencies(login.id))
+        dispatch(fetchUserCurrencies(login.payload.id))
     }
 
-    handleRefreshClick(e) {
-        e.preventDefault()
-
+    handleRefresh() {
         const { dispatch, login } = this.props
-        dispatch(fetchUserCurrencies(login.id))
+        dispatch(fetchUserCurrencies(login.payload.id))
     }
 
     handleSellUserCurrency(currencyCode) {
@@ -44,7 +40,7 @@ class Wallet extends Component {
 
             let userCurrency = {
                 userCurrencyId: null,
-                userId: login.id,
+                userId: login.payload.id,
                 currencyCode: currencyCode,
                 currencyAmount: 0
             }
@@ -57,7 +53,7 @@ class Wallet extends Component {
                 userCurrency.currencyAmount = 1
 
                 dispatch(sellUserCurrency(userCurrency))
-                location.reload()
+                this.handleRefresh()
             }
         }
     }
@@ -70,20 +66,8 @@ class Wallet extends Component {
                 {error && 
                     <div className="alert alert-warning">
                         <strong>Warning!</strong> {message} for UserCurrencies.
-                    </div>
-                }
+                    </div>}
 
-                <p>
-                    {!error && lastUpdated &&
-                        <span>
-                            Last updated at {new Date(lastUpdated).toLocaleTimeString()}.
-                            {' '}
-                        </span>}
-                    {!error && !isFetching &&
-                        <a href="#" onClick={this.handleRefreshClick}>
-                            Refresh
-                        </a>}
-                </p>
                 {!error && isFetching && userCurrencies.length === 0 && <h2>Loading...</h2>}
                 {!error && !isFetching && userCurrencies.length === 0 && <h2>Empty.</h2>}
                 {!error && userCurrencies.length > 0 &&
@@ -110,6 +94,8 @@ function mapStateToProps(state) {
         message: "unexpected error",
         payload: []
     }
+
+    console.log(login)
 
     let currencies = fetchCurrencies.payload
     for(let i=0 ; i<currencies.length ; i++) {

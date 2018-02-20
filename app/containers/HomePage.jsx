@@ -12,7 +12,7 @@ class HomePage extends Component {
         return (
             <div className="row">
                 <div className="col-sm-6">
-                    <div class="container">
+                    <div className="container">
                         <h1>Currencies</h1> 
                     </div>
 
@@ -20,7 +20,7 @@ class HomePage extends Component {
                 </div>
 
                 <div className="col-sm-6">
-                    <div class="container">
+                    <div className="container">
                         <h1>Wallet</h1> 
                     </div>
 

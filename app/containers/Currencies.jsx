@@ -20,7 +20,7 @@ import CurrencyTable from '../components/CurrencyTable.jsx'
 class Currencies extends Component {
     constructor(props) {
         super(props)
-        this.handleRefreshClick = this.handleRefreshClick.bind(this)
+        this.handleRefresh = this.handleRefresh.bind(this)
         this.handleSaveUserCurrency = this.handleSaveUserCurrency.bind(this)
     }
 
@@ -35,9 +35,7 @@ class Currencies extends Component {
         dispatch(fetchCurrencies())
     }
 
-    handleRefreshClick(e) {
-        e.preventDefault()
-
+    handleRefresh() {
         const { dispatch } = this.props
         dispatch(fetchCurrencies())
     }
@@ -65,7 +63,7 @@ class Currencies extends Component {
                 dispatch(insertUserCurrency(userCurrency))
             }
 
-            location.reload()
+            this.handleRefresh()
         }
     }
 
@@ -77,20 +75,8 @@ class Currencies extends Component {
                 {error && 
                     <div className="alert alert-warning">
                         <strong>Warning!</strong> {message} for Currencies.
-                    </div>
-                }
-
-                <p>
-                    {!error && lastUpdated &&
-                        <span>
-                            Last updated at {new Date(lastUpdated).toLocaleTimeString()}.
-                            {' '}
-                        </span>}
-                    {!error && !isFetching &&
-                        <a href="#" onClick={this.handleRefreshClick}>
-                            Refresh
-                        </a>}
-                </p>
+                    </div>}
+                    
                 {!error && isFetching && currencies.length === 0 && <h2>Loading...</h2>}
                 {!error && !isFetching && currencies.length === 0 && <h2>Empty.</h2>}
                 {!error && currencies.length > 0 &&
