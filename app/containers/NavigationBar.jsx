@@ -47,6 +47,11 @@ class NavigationBar extends Component {
     }
 }
 
+NavigationBar.propTypes = {
+    isAuthenticated: PropTypes.bool.isRequired,
+    dispatch: PropTypes.func.isRequired
+}
+
 function mapStateToProps(state) {
     const { login } = state
 

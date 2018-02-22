@@ -13,6 +13,7 @@ import UserCurrencyTable from '../components/UserCurrencyTable.jsx'
 class Wallet extends Component {
     constructor(props) {
         super(props)
+        
         this.handleRefresh = this.handleRefresh.bind(this)
         this.handleSellUserCurrency = this.handleSellUserCurrency.bind(this)
     }
@@ -20,8 +21,6 @@ class Wallet extends Component {
     componentDidMount() {
         const { dispatch, login } = this.props
         dispatch(fetchUserCurrencies(login.payload.id))
-
-        setInterval(this.handleRefresh(), 500);
     }
 
     handleChange() {
@@ -59,60 +58,63 @@ class Wallet extends Component {
     }
 
     render() {
-        const { userCurrencies, isFetching, error, message, lastUpdated } = this.props
+        const { payload, isFetching, isError, alert } = this.props
 
         return (
             <div>
-                {error && 
-                    <div className="alert alert-warning">
-                        <strong>Warning!</strong> {message} for UserCurrencies.
+                {isError && 
+                    <div className="alert alert-danger">
+                        <strong>{alert.type}!</strong> {alert.message}.
                     </div>}
 
-                {!error && isFetching && userCurrencies.length === 0 && <h2>Loading...</h2>}
-                {!error && !isFetching && userCurrencies.length === 0 && <h2>Empty.</h2>}
-                {!error && userCurrencies.length > 0 &&
+                {!isError && isFetching && payload.length === 0 && <h2>Loading...</h2>}
+                {!isError && !isFetching && payload.length === 0 && <h2>Empty.</h2>}
+                {!isError && payload.length > 0 &&
                     <div style={{ opacity: isFetching ? 0.5 : 1 }}>
-                        <UserCurrencyTable userCurrencies={userCurrencies} onClick={this.handleSellUserCurrency} />
+                        <UserCurrencyTable userCurrencies={payload} 
+                                           onClick={this.handleSellUserCurrency} />
                     </div>}
             </div>
         )
     }
 }
 
+Wallet.propTypes = {
+    payload: PropTypes.array.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    isError: PropTypes.bool.isRequired,
+    dispatch: PropTypes.func.isRequired
+}
+
 function mapStateToProps(state) {
-    const { fetchUserCurrencies, fetchCurrencies, login } = state
+    const { fetchUserCurrencies, fetchCurrencies, login, alert } = state
 
     const {
         isFetching,
-        error,
-        lastUpdated,
-        payload: userCurrencies,
-        message
+        isError,
+        payload: payload
     } = fetchUserCurrencies || {
         isFetching: true,
-        error: true,
-        message: "unexpected error",
+        isError: true,
         payload: []
     }
 
-    console.log(login)
-
     let currencies = fetchCurrencies.payload
     for(let i=0 ; i<currencies.length ; i++) {
-        for(let j=0 ; j<userCurrencies.length ; j++) {
-            if(currencies[i].code == userCurrencies[j].currencyCode) {
-                userCurrencies[j].sellPrice = currencies[i].sellPrice
+        for(let j=0 ; j<payload.length ; j++) {
+            if(currencies[i].code == payload[j].currencyCode) {
+                payload[j].sellPrice = currencies[i].sellPrice
             }
         }
     }
 
     return {
-        userCurrencies,
+        payload,
         isFetching,
-        error,
-        lastUpdated,
+        isError,
         fetchUserCurrencies,
-        login
+        login,
+        alert
     }
 }
 export default connect(mapStateToProps)(Wallet)

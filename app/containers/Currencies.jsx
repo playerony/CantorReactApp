@@ -27,7 +27,6 @@ class Currencies extends Component {
     componentDidMount() {
         const { dispatch } = this.props
         dispatch(fetchCurrencies())
-        dispatch(login("test", "test"))
     }
 
     handleChange() {
@@ -68,20 +67,20 @@ class Currencies extends Component {
     }
 
     render() {
-        const { currencies, isFetching, error, message, lastUpdated } = this.props
+        const { payload, isFetching, isError, alert } = this.props
 
         return (
             <div>
-                {error && 
+                {isError && 
                     <div className="alert alert-warning">
-                        <strong>Warning!</strong> {message} for Currencies.
+                        <strong>{alert.type}!</strong> {alert.message}.
                     </div>}
                     
-                {!error && isFetching && currencies.length === 0 && <h2>Loading...</h2>}
-                {!error && !isFetching && currencies.length === 0 && <h2>Empty.</h2>}
-                {!error && currencies.length > 0 &&
+                {!isError && isFetching && payload.length === 0 && <h2>Loading...</h2>}
+                {!isError && !isFetching && payload.length === 0 && <h2>Empty.</h2>}
+                {!isError && payload.length > 0 &&
                     <div style={{ opacity: isFetching ? 0.5 : 1 }}>
-                        <CurrencyTable currencies={currencies} 
+                        <CurrencyTable currencies={payload} 
                                        onClick={this.handleSaveUserCurrency} />
                     </div>}
             </div>
@@ -90,36 +89,33 @@ class Currencies extends Component {
 }
 
 Currencies.propTypes = {
-    currencies: PropTypes.array.isRequired,
+    payload: PropTypes.array.isRequired,
     isFetching: PropTypes.bool.isRequired,
-    error: PropTypes.bool.isRequired,
-    lastUpdated: PropTypes.number,
+    isError: PropTypes.bool.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired,
     dispatch: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
-    const { fetchCurrencies, fetchUserCurrencies, login } = state
+    const { fetchCurrencies, fetchUserCurrencies, login, alert } = state
 
     const {
         isFetching,
-        error,
-        lastUpdated,
-        payload: currencies,
-        message
+        isError,
+        payload: payload
     } = fetchCurrencies || {
         isFetching: true,
-        error: false,
+        isError: false,
         payload: []
     }
 
     return {
-        currencies,
+        payload,
         isFetching,
-        error,
-        message,
-        lastUpdated,
+        isError,
         fetchUserCurrencies,
-        login
+        login,
+        alert
     }
 }
 export default connect(mapStateToProps)(Currencies)

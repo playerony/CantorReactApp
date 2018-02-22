@@ -26,13 +26,11 @@ class LoginPage extends Component {
 
     onLoginChange(event) {
         let login = event.target.value
-
         this.state.loginForm.username = login
     }
 
     onPasswordChange(event) {
         let password = event.target.value
-
         this.state.loginForm.password = password
     }
 
@@ -44,20 +42,20 @@ class LoginPage extends Component {
     }
 
     render() {
-        const { isFetching, error, message, isAuthenticated } = this.props
+        const { isFetching, isError, isAuthenticated, alert } = this.props
 
         return (
             !isAuthenticated ?
                 <div>
                     <h1>Login page</h1>
 
-                    {error && 
-                        <div className="alert alert-warning">
-                            <strong>Warning!</strong> {message}.
+                    {isError &&
+                        <div className="alert alert-danger">
+                            <strong>{alert.type}!</strong> {alert.message}.
                         </div>
                     }
 
-                    {!error && isFetching && <h2>Logging in...</h2>}
+                    {!isError && isFetching && <h2>Logging in...</h2>}
 
                     <form onSubmit={this.handleSubmit} className="form-horizontal" >
                         <div className="form-group">
@@ -89,31 +87,35 @@ class LoginPage extends Component {
     }
 }
 
+LoginPage.propTypes = {
+    payload: PropTypes.array.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired,
+    isError: PropTypes.bool.isRequired,
+    dispatch: PropTypes.func.isRequired
+}
+
 function mapStateToProps(state) {
-    const { login } = state
+    const { login, alert } = state
 
     const {
         isFetching,
-        error,
-        lastUpdated,
+        isError,
         payload: payload,
-        message,
         isAuthenticated
     } = login || {
         isFetching: true,
-        error: false,
+        isError: false,
         isAuthenticated: false,
         payload: []
     }
 
     return {
         isFetching,
-        error,
-        lastUpdated,
+        isError,
         payload: payload,
-        message,
         isAuthenticated,
-        message
+        alert
     }
 }
 export default connect(mapStateToProps)(LoginPage)
