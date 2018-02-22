@@ -7,7 +7,7 @@ import {
 export function fetchCurrencies(
     state = {
         isFetching: false,
-        error: false,
+        isError: false,
         payload: []
     },
     action
@@ -16,21 +16,21 @@ export function fetchCurrencies(
         case REQUEST_CURRENCIES:
             return Object.assign({}, state, {
                 isFetching: true,
-                error: false
+                isError: false
             })
         case RECEIVE_CURRENCIES:
             return Object.assign({}, state, {
                 isFetching: false,
-                error: false,
-                payload: action.payload.items,
-                publicationDate: action.payload.publicationDate,
+                isError: false,
+                payload: action.response.items,
+                publicationDate: action.response.publicationDate,
                 lastUpdated: action.receivedAt
             })
         case FAILURE_CURRENCIES:
             return Object.assign({}, state, {
-                error: true,
+                isError: true,
                 isFetching: false,
-                message: action.message
+                error: action.error
             })
         default:
             return state

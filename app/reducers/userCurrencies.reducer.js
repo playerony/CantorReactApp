@@ -21,7 +21,7 @@ import {
 export function fetchUserCurrencies(
     state = {
         isFetching: false,
-        error: false,
+        isError: false,
         payload: []
     },
     action
@@ -30,20 +30,20 @@ export function fetchUserCurrencies(
         case REQUEST_USER_CURRENCIES:
             return Object.assign({}, state, {
                 isFetching: true,
-                error: false
+                isError: false
             })
         case RECEIVE_USER_CURRENCIES:
             return Object.assign({}, state, {
                 isFetching: false,
-                error: false,
-                payload: action.payload,
+                isError: false,
+                payload: action.response,
                 lastUpdated: action.receivedAt
             })
         case FAILURE_USER_CURRENCIES:
             return Object.assign({}, state, {
-                error: true,
+                isError: true,
                 isFetching: true,
-                payload: action.payload
+                error: action.error
             })
         default:
             return state
@@ -53,7 +53,7 @@ export function fetchUserCurrencies(
 export function insertUserCurrency(
     state = {
         isFetching: false,
-        error: false
+        isError: false
     },
     action
 ) {
@@ -61,17 +61,19 @@ export function insertUserCurrency(
         case REQUEST_INSERT_USER_CURRENCY:
             return Object.assign({}, state, {
                 isFetching: true,
-                error: false
+                isError: false
             })
         case RECEIVE_INSERT_USER_CURRENCY:
             return Object.assign({}, state, {
                 isFetching: false,
-                error: false,
+                isError: false,
                 lastUpdated: action.receivedAt
             })
         case FAILURE_INSERT_USER_CURRENCY:
             return Object.assign({}, state, {
-                error: true
+                isError: true,
+                isFetching: true,
+                error: action.error
             })
         default:
             return state
@@ -81,7 +83,7 @@ export function insertUserCurrency(
 export function buyUserCurrency(
     state = {
         isFetching: false,
-        error: false
+        isError: false
     },
     action
 ) {
@@ -89,17 +91,19 @@ export function buyUserCurrency(
         case REQUEST_BUY_USER_CURRENCY:
             return Object.assign({}, state, {
                 isFetching: true,
-                error: false
+                isError: false
             })
         case RECEIVE_BUY_USER_CURRENCY:
             return Object.assign({}, state, {
                 isFetching: false,
-                error: false,
+                isError: false,
                 lastUpdated: action.receivedAt
             })
         case FAILURE_BUY_USER_CURRENCY:
             return Object.assign({}, state, {
-                error: true
+                isError: true,
+                isFetching: true,
+                error: action.error
             })
         default:
             return state
@@ -109,7 +113,7 @@ export function buyUserCurrency(
 export function sellUserCurrency(
     state = {
         isFetching: false,
-        error: false
+        isError: false
     },
     action
 ) {
@@ -117,17 +121,19 @@ export function sellUserCurrency(
         case REQUEST_SELL_USER_CURRENCY:
             return Object.assign({}, state, {
                 isFetching: true,
-                error: false
+                isError: false
             })
         case RECEIVE_SELL_USER_CURRENCY:
             return Object.assign({}, state, {
                 isFetching: false,
-                error: false,
+                isError: false,
                 lastUpdated: action.receivedAt
             })
         case FAILURE_SELL_USER_CURRENCY:
             return Object.assign({}, state, {
-                error: true
+                isError: true,
+                isFetching: true,
+                error: action.error
             })
         default:
             return state

@@ -8,7 +8,7 @@ import {
 export function login(
     state = {
         isFetching: false,
-        error: false,
+        isError: false,
         isAuthenticated: false,
         payload: []
     },
@@ -17,24 +17,18 @@ export function login(
     switch (action.type) {
         case REQUEST_LOGIN:
             return Object.assign({}, state, {
-                isFetching: true,
-                isAuthenticated: false,
-                error: false
+                isFetching: true
             })
         case RECEIVE_LOGIN:
             return Object.assign({}, state, {
-                isFetching: false,
-                error: false,
                 isAuthenticated: true,
-                payload: action.payload,
+                payload: action.response,
                 lastUpdated: action.receivedAt
             })
         case FAILURE_LOGIN:
             return Object.assign({}, state, {
-                error: true,
-                isFetching: false,
-                isAuthenticated: false,
-                message: action.message
+                isError: true,
+                error: action.error
             })
         case LOGOUT: 
             return Object.assign({}, state, {

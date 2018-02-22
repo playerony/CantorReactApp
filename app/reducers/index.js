@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 
 import { fetchCurrencies } from './currencies.reducer.js'
-import { fetchCurrency } from './currency.reducer.js'
+import { alert } from './alert.reducer.js'
 import { login } from './login.reducer.js'
 import { 
     fetchUserCurrencies, 
@@ -12,12 +12,12 @@ import {
 
 const rootReducer = combineReducers({
     fetchCurrencies,
-    fetchCurrency,
     fetchUserCurrencies,
     insertUserCurrency,
     buyUserCurrency,
     sellUserCurrency,
-    login
+    login,
+    alert
 })
 
 export default rootReducer
