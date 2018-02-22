@@ -8,14 +8,14 @@ import * as userCurrenciesService from '../../services/userCurrencies.service.js
 function requestInsertUserCurrency(userCurrency) {
     return {
         type: REQUEST_INSERT_USER_CURRENCY,
-        payload: userCurrency
+        userCurrency
     }
 }
 
 function receiveInsertUserCurrency(json) {
     return {
         type: RECEIVE_INSERT_USER_CURRENCY,
-        payload: json,
+        response: json,
         receivedAt: Date.now()
     }
 }
@@ -23,8 +23,7 @@ function receiveInsertUserCurrency(json) {
 function failureInsertUserCurrency(error) {
     return {
         type: FAILURE_INSERT_USER_CURRENCY,
-        message: error.message,
-        receivedAt: Date.now()
+        error: error
     }
 }
 
@@ -33,10 +32,14 @@ export function insertUserCurrency(userCurrency) {
         dispatch(requestInsertUserCurrency(userCurrency))
         userCurrenciesService.saveUserCurrency(userCurrency)
             .then(
-                json => dispatch(receiveInsertUserCurrency(json))
+                json => {
+                    dispatch(receiveInsertUserCurrency(json))
+                    dispatch(alertActions.success("Successful added new user currency"))
+                }
             )
             .catch(function(error) {
                 dispatch(failureInsertUserCurrency(error))
+                dispatch(alertActions.error("Some problems by adding new currency"))
             })
     }
 }

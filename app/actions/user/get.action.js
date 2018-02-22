@@ -4,11 +4,12 @@ import {
     FAILURE_USER
 } from '../constants/users.constants'
 import { getUser } from '../../services/users.service'
+import * as alertActions from '../../actions/alert/alert.action.js'
 
-function requestGetUser(username) {
+function requestUser(username) {
     return {
         type: REQUEST_USER,
-        payload: username
+        username
     }
 }
 
@@ -16,28 +17,32 @@ function receiveUser(username, json) {
     return {
         type: RECEIVE_USER,
         username,
-        payload: json.data.children.map(child => child.data),
+        response: json,
         receivedAt: Date.now()
     }
 }
 
-function receiveErrorResponse(username, error) {
+function failureUser(username, error) {
     return {
         type: FAILURE_USER,
         username,
-        payload: error,
-        receivedAt: Date.now()
+        error: error
     }
 }
 
 export function getUser(username) {
     return dispatch => {
-        dispatch(requestGetUser(username))
-        return removeUser(username)
-            .then(response => response.json())
-            .then(dispatch(receiveUser(json)))
-            .catch((error) => {
-                dispatch(receiveErrorResponse(username, error.message))
+        dispatch(requestUser(username))
+        return getUser(username)
+            .then(
+                json => {
+                    dispatch(receiveUser(username, json))
+                    dispatch(alertActions.success("Successful fetched user"))
+                }
+            )
+            .catch(function(error) {
+                dispatch(failureUser(username, error))
+                dispatch(alertActions.error("Some problems by fetching user"))
             })
     }
 }

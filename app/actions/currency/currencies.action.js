@@ -3,6 +3,7 @@ import {
     RECEIVE_CURRENCIES,
     FAILURE_CURRENCIES
 } from '../../constants/currencies.constants.js'
+import * as alertActions from '../../actions/alert/alert.action.js'
 import * as currenciesService from '../../services/currencies.service.js'
 
 function requestCurrencies() {
@@ -12,11 +13,9 @@ function requestCurrencies() {
 }
 
 function receiveCurrencies(json) {
-    console.log(json)
-
     return {
         type: RECEIVE_CURRENCIES,
-        payload: json,
+        response: json,
         receivedAt: Date.now()
     }
 }
@@ -24,8 +23,7 @@ function receiveCurrencies(json) {
 function failureCurrencies(error) {
     return {
         type: FAILURE_CURRENCIES,
-        message: error.message,
-        receivedAt: Date.now()
+        error: error
     }
 }
 
@@ -34,10 +32,14 @@ export function fetchCurrencies() {
         dispatch(requestCurrencies())
         currenciesService.fetchCurrencies()
             .then(
-                json => dispatch(receiveCurrencies(json))
+                json => {
+                    dispatch(receiveCurrencies(json))
+                    dispatch(alertActions.success("Successful got list of currencies"))
+                }
             )
             .catch(function(error) {
                 dispatch(failureCurrencies(error))
+                dispatch(alertActions.error("Some problems by fetching list of currencies"))
             })
     }
 }

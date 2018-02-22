@@ -26,7 +26,7 @@ function requestUserCurrency(userCurrencyId) {
 function receiveUserCurrencies(userId, json) {
     return {
         type: RECEIVE_USER_CURRENCIES,
-        payload: json,
+        response: json,
         userId,
         receivedAt: Date.now()
     }
@@ -35,7 +35,7 @@ function receiveUserCurrencies(userId, json) {
 function receiveUserCurrency(userCurrencyId, json) {
     return {
         type: RECEIVE_USER_CURRENCY,
-        payload: json,
+        response: json,
         userCurrencyId,
         receivedAt: Date.now()
     }
@@ -44,16 +44,14 @@ function receiveUserCurrency(userCurrencyId, json) {
 function failureUserCurrencies(error) {
     return {
         type: FAILURE_USER_CURRENCIES,
-        message: error.message,
-        receivedAt: Date.now()
+        error: error
     }
 }
 
 function failureUserCurrency(error) {
     return {
         type: FAILURE_USER_CURRENCY,
-        message: error.message,
-        receivedAt: Date.now()
+        error: error
     }
 }
 
@@ -62,10 +60,14 @@ export function fetchUserCurrencies(userId) {
         dispatch(requestUserCurrencies(userId))
         userCurrenciesService.getUserCurrencies(userId)
             .then(
-                json => dispatch(receiveUserCurrencies(userId, json))
+                json => {
+                    dispatch(receiveUserCurrencies(userId, json))
+                    dispatch(alertActions.success("Successful got items for user wallet"))
+                }
             )
             .catch(function(error) {
                 dispatch(failureUserCurrencies(error))
+                dispatch(alertActions.error("Some problems by fetching user wallet"))
             })
     }
 }
@@ -75,10 +77,14 @@ export function fetchUserCurrency(userCurrencyId) {
         dispatch(requestUserCurrency(userCurrencyId))
         userCurrenciesService.getUserCurrency(userCurrencyId)
             .then(
-                json => dispatch(receiveUserCurrency(userCurrencyId, json))
+                json => {
+                    dispatch(receiveUserCurrency(userCurrencyId, json))
+                    dispatch(alertActions.success("Successful got user currency"))
+                }
             )
             .catch(function(error) {
                 dispatch(failureUserCurrency(error))
+                dispatch(alertActions.error("Some problems by fetching user currrency"))
             })
     }
 }

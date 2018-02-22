@@ -6,6 +6,7 @@ import {
     FAILURE_LOGIN,
     LOGOUT
 } from '../../constants/login.constants.js'
+import * as alertActions from '../../actions/alert/alert.action.js'
 import * as loginService from '../../services/login.service.js'
 
 function requestLogin(username) {
@@ -19,7 +20,7 @@ function receiveLogin(username, json) {
     return {
         type: RECEIVE_LOGIN,
         username,
-        payload: jwtDecode(json.token),
+        response: jwtDecode(json.token),
         receivedAt: Date.now()
     }
 }
@@ -27,9 +28,7 @@ function receiveLogin(username, json) {
 function failureLogin(error) {
     return {
         type: FAILURE_LOGIN,
-        message: error.message,
-        payload: null,
-        receivedAt: Date.now()
+        error: error
     }
 }
 
@@ -44,10 +43,14 @@ export function login(username, password) {
         dispatch(requestLogin(username))
         loginService.getToken(username, password)
             .then(
-                json => dispatch(receiveLogin(username, json))
+                json => {
+                    dispatch(receiveLogin(username, json))
+                    dispatch(alertActions.success("Successful login"))
+                }
             )
             .catch(function(error) {
                 dispatch(failureLogin(error))
+                dispatch(alertActions.error("Some problems by login"))
             })
     }
 }
