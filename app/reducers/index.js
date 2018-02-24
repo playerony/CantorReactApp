@@ -9,6 +9,12 @@ import {
     buyUserCurrency,
     sellUserCurrency
 } from './userCurrencies.reducer.js'
+import { 
+    fetchUser, 
+    insertUser,
+    updateUser,
+    deleteUser
+} from './user.reducer.js'
 
 const rootReducer = combineReducers({
     fetchCurrencies,
@@ -16,6 +22,10 @@ const rootReducer = combineReducers({
     insertUserCurrency,
     buyUserCurrency,
     sellUserCurrency,
+    fetchUser,
+    insertUser,
+    updateUser,
+    deleteUser,
     login,
     alert
 })

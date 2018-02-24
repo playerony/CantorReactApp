@@ -10,9 +10,6 @@ class UserCurrencyRow extends Component {
     render() {
         const { onClick } = this.props
 
-        if(this.props.userCurrency.sellPrice == undefined)
-            location.reload()
-
         return (
             <tr>
                 <td>{this.props.userCurrency.currencyCode}</td>
