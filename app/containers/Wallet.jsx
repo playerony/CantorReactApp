@@ -8,7 +8,11 @@ import {
 import {
     sellUserCurrency
 } from '../actions/userCurrencies/update.action.js'
+import {
+    logout
+} from '../actions/login/login.action.js'
 import UserCurrencyTable from '../components/UserCurrencyTable.jsx'
+import * as token from '../utils/TokenUtils.js'
 
 class Wallet extends Component {
     constructor(props) {
@@ -20,6 +24,10 @@ class Wallet extends Component {
 
     componentDidMount() {
         const { dispatch, login } = this.props
+
+        if(token.checkToken(login.payload)) {
+            dispatch(logout())
+        }
         dispatch(fetchUserCurrencies(login.payload.id))
     }
 

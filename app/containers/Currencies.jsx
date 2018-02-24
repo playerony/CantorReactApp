@@ -12,8 +12,10 @@ import {
     buyUserCurrency
 } from '../actions/userCurrencies/update.action.js'
 import {
-    login
+    login,
+    logout
 } from '../actions/login/login.action.js'
+import * as token from '../utils/TokenUtils.js'
 
 import CurrencyTable from '../components/CurrencyTable.jsx'
 
@@ -27,6 +29,12 @@ class Currencies extends Component {
 
     componentDidMount() {
         const { dispatch } = this.props
+
+        if(token.checkToken(login.payload)) {
+            console.log("Logout currencies")
+            dispatch(logout())
+        }
+
         dispatch(fetchCurrencies())
     }
 
@@ -50,8 +58,6 @@ class Currencies extends Component {
                 currencyCode: currencyCode,
                 currencyAmount: 1
             }
-
-            console.log(userCurrency)
 
             let userCurrencies = fetchUserCurrencies.payload
             let element = userCurrencies.find(item => item.currencyCode == currencyCode)
