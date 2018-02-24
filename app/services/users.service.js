@@ -1,6 +1,6 @@
 import fetch from 'cross-fetch'
 
-let apiUrl = 'http://localhost:8000/cantor/user'
+let apiUrl = 'http://localhost:8080/cantor/user'
 
 export function removeUser(id) {
     const requestOptions = {
@@ -8,7 +8,7 @@ export function removeUser(id) {
         mode: 'no-cors'
     }
 
-    return fetch(apiUrl + '/' + id)
+    return fetch(apiUrl + '/' + id, requestOptions)
         .then(response => {
             return response.json()
         })
@@ -39,7 +39,7 @@ export function saveUser(user) {
         })
 }
 
-export function updateUser(user) {
+export function updateUserAccount(user) {
     const requestOptions = {
         method: 'PUT',
         mode: 'no-cors',
@@ -64,8 +64,8 @@ export function updateUser(user) {
         })
 }
 
-export function getUser(username) {
-    return fetch(apiUrl + '/' + username, requestOptions)
+export function getUser(userId) {
+    return fetch(apiUrl + '/' + userId)
         .then(response => {
             return response.json()
         })
