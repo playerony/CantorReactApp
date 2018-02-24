@@ -7,6 +7,7 @@ import {
     RECEIVE_SELL_USER_CURRENCY,
     FAILURE_SELL_USER_CURRENCY
 } from '../../constants/userCurrencies.constants.js'
+import * as alertActions from '../../actions/alert/alert.action.js'
 import * as userCurrenciesService from '../../services/userCurrencies.service.js'
 
 function requestBuyUserCurrency(userCurrency) {

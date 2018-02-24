@@ -7,6 +7,7 @@ import {
     LOGOUT
 } from '../../constants/login.constants.js'
 import * as alertActions from '../../actions/alert/alert.action.js'
+import { fetchUser } from '../../actions/user/get.action.js'
 import * as loginService from '../../services/login.service.js'
 
 function requestLogin(username) {
@@ -45,6 +46,7 @@ export function login(username, password) {
             .then(
                 json => {
                     dispatch(receiveLogin(username, json))
+                    dispatch(fetchUser(jwtDecode(json.token).id))
                     dispatch(alertActions.success("Successful login"))
                 }
             )

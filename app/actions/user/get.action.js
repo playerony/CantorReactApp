@@ -2,46 +2,46 @@ import {
     REQUEST_USER,
     RECEIVE_USER,
     FAILURE_USER
-} from '../constants/users.constants'
+} from '../../constants/users.constants.js'
 import { getUser } from '../../services/users.service'
 import * as alertActions from '../../actions/alert/alert.action.js'
 
-function requestUser(username) {
+function requestUser(userId) {
     return {
         type: REQUEST_USER,
-        username
+        userId
     }
 }
 
-function receiveUser(username, json) {
+function receiveUser(userId, json) {
     return {
         type: RECEIVE_USER,
-        username,
+        userId,
         response: json,
         receivedAt: Date.now()
     }
 }
 
-function failureUser(username, error) {
+function failureUser(userId, error) {
     return {
         type: FAILURE_USER,
-        username,
+        userId,
         error: error
     }
 }
 
-export function getUser(username) {
+export function fetchUser(userId) {
     return dispatch => {
-        dispatch(requestUser(username))
-        return getUser(username)
+        dispatch(requestUser(userId))
+        return getUser(userId)
             .then(
                 json => {
-                    dispatch(receiveUser(username, json))
+                    dispatch(receiveUser(userId, json))
                     dispatch(alertActions.success("Successful fetched user"))
                 }
             )
             .catch(function(error) {
-                dispatch(failureUser(username, error))
+                dispatch(failureUser(userId, error))
                 dispatch(alertActions.error("Some problems by fetching user"))
             })
     }

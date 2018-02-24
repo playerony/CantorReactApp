@@ -2,7 +2,7 @@ import {
     REQUEST_DELETE_USER,
     RECEIVE_DELETE_USER,
     FAILURE_DELETE_USER
-} from '../constants/users.constants'
+} from '../../constants/users.constants.js'
 import { removeUser } from '../../services/users.service'
 import * as alertActions from '../../actions/alert/alert.action.js'
 
