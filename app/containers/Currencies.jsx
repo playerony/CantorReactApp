@@ -20,6 +20,7 @@ import CurrencyTable from '../components/CurrencyTable.jsx'
 class Currencies extends Component {
     constructor(props) {
         super(props)
+
         this.handleRefresh = this.handleRefresh.bind(this)
         this.handleSaveUserCurrency = this.handleSaveUserCurrency.bind(this)
     }
@@ -45,23 +46,24 @@ class Currencies extends Component {
 
             let userCurrency = {
                 userCurrencyId: null,
-                userId: login.id,
+                userId: login.payload.id,
                 currencyCode: currencyCode,
-                currencyAmount: 0
+                currencyAmount: 1
             }
+
+            console.log(userCurrency)
 
             let userCurrencies = fetchUserCurrencies.payload
             let element = userCurrencies.find(item => item.currencyCode == currencyCode)
 
             if(element != null) {
                 userCurrency.userCurrencyId = element.userCurrencyId
-                userCurrency.currencyAmount = 1
 
                 dispatch(buyUserCurrency(userCurrency))
             } else {
                 dispatch(insertUserCurrency(userCurrency))
             }
-
+            
             this.handleRefresh()
         }
     }
@@ -92,7 +94,6 @@ Currencies.propTypes = {
     payload: PropTypes.array.isRequired,
     isFetching: PropTypes.bool.isRequired,
     isError: PropTypes.bool.isRequired,
-    isAuthenticated: PropTypes.bool.isRequired,
     dispatch: PropTypes.func.isRequired
 }
 

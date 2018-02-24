@@ -41,7 +41,7 @@ class Wallet extends Component {
                 userCurrencyId: null,
                 userId: login.payload.id,
                 currencyCode: currencyCode,
-                currencyAmount: 0
+                currencyAmount: 1
             }
 
             let userCurrencies = fetchUserCurrencies.payload
@@ -49,9 +49,9 @@ class Wallet extends Component {
 
             if(element != null) {
                 userCurrency.userCurrencyId = element.userCurrencyId
-                userCurrency.currencyAmount = 1
 
                 dispatch(sellUserCurrency(userCurrency))
+
                 this.handleRefresh()
             }
         }

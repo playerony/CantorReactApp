@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import {
     Link
 } from 'react-router-dom'
@@ -7,6 +8,9 @@ import {
 import {
     logout
 } from '../actions/login/login.action.js'
+import {
+    fetchUser
+} from '../actions/user/get.action.js'
 
 class NavigationBar extends Component {
     constructor(props) {
@@ -21,7 +25,7 @@ class NavigationBar extends Component {
     }
 
     render() {
-        const { isAuthenticated } = this.props
+        const { isAuthenticated, payload } = this.props
 
         return (
             <nav className="navbar navbar-default">
@@ -37,7 +41,16 @@ class NavigationBar extends Component {
                     {isAuthenticated &&
                         <div className="collapse navbar-collapse">
                             <ul className="nav navbar-nav navbar-right">
-                                <Link to="/" className="navbar-brand" onClick={this.handleLogout}>Sing up</Link>
+                                <li>
+                                    {payload != undefined &&
+                                        <a>Logged in as {payload.firstName} {payload.lastName}</a>}
+                                </li>
+                                <li>
+                                    <span className="glyphicon glyphicon-cog"></span>
+                                </li>
+                                <li>
+                                    <Link to="/" onClick={this.handleLogout}><span className="glyphicon glyphicon-off"></span></Link>
+                                </li>
                             </ul>
                         </div>
                     }
@@ -53,7 +66,7 @@ NavigationBar.propTypes = {
 }
 
 function mapStateToProps(state) {
-    const { login } = state
+    const { login, fetchUser } = state
 
     const {
         isAuthenticated
@@ -61,8 +74,13 @@ function mapStateToProps(state) {
         isAuthenticated: false
     }
 
+    const {
+        payload
+    } = fetchUser
+
     return {
-        isAuthenticated
+        isAuthenticated,
+        payload
     }
 }
 export default connect(mapStateToProps)(NavigationBar)
