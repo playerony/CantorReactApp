@@ -25,9 +25,8 @@ class Wallet extends Component {
     componentDidMount() {
         const { dispatch, login } = this.props
 
-        if(token.checkToken(login.payload)) {
+        if(token.checkToken(login.payload)) 
             dispatch(logout())
-        }
         dispatch(fetchUserCurrencies(login.payload.id))
     }
 
@@ -66,7 +65,7 @@ class Wallet extends Component {
     }
 
     render() {
-        const { payload, isFetching, isError, alert } = this.props
+        const { payload, isFetching, isError, alert, fetchUser } = this.props
 
         return (
             <div>
@@ -82,6 +81,11 @@ class Wallet extends Component {
                         <UserCurrencyTable userCurrencies={payload} 
                                            onClick={this.handleSellUserCurrency} />
                     </div>}
+
+                {fetchUser.payload != null && 
+                    <div className="text-justify">
+                        <h2>Available PLN: {fetchUser.payload.balance}</h2>
+                    </div>}
             </div>
         )
     }
@@ -95,7 +99,7 @@ Wallet.propTypes = {
 }
 
 function mapStateToProps(state) {
-    const { fetchUserCurrencies, fetchCurrencies, login, alert } = state
+    const { fetchUserCurrencies, fetchCurrencies, login, alert, fetchUser } = state
 
     const {
         isFetching,
@@ -122,7 +126,8 @@ function mapStateToProps(state) {
         isError,
         fetchUserCurrencies,
         login,
-        alert
+        alert,
+        fetchUser
     }
 }
 export default connect(mapStateToProps)(Wallet)

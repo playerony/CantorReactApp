@@ -46,7 +46,7 @@ class NavigationBar extends Component {
                                         <a>Logged in as {payload.firstName} {payload.lastName}</a>}
                                 </li>
                                 <li>
-                                    <Link to="/"><span className="glyphicon glyphicon-cog"></span></Link>
+                                    <Link to="/edit"><span className="glyphicon glyphicon-cog"></span></Link>
                                 </li>
                                 <li>
                                     <Link to="/" onClick={this.handleLogout}><span className="glyphicon glyphicon-off"></span></Link>

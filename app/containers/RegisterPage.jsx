@@ -21,7 +21,7 @@ class RegisterPage extends Component {
                 username: '',
                 password: '',
                 email: '',
-                balance: 0,
+                balance: 1000,
                 roleId: 1
             }
         }

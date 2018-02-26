@@ -21,7 +21,7 @@ class HomePage extends Component {
 
                 <div className="col-sm-6">
                     <div className="container">
-                        <h1>Wallet</h1> 
+                        <h1>My wallet</h1> 
                     </div>
 
                     <Wallet />

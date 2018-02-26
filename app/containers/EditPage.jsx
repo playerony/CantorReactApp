@@ -16,13 +16,13 @@ class EditPage extends Component {
 
         this.state = {
             user: {
-                userId: this.props.payload.id,
+                userId: this.props.payload.userId,
                 firstName: this.props.payload.firstName,
                 lastName: this.props.payload.lastName,
                 username: this.props.payload.username,
                 password: '',
                 email: this.props.payload.email,
-                balance: 0,
+                balance: this.props.payload.balance,
                 roleId: 1
             }
         }
@@ -34,7 +34,7 @@ class EditPage extends Component {
         event.preventDefault()
 
         const { dispatch } = this.props
-        editForm.userId = payload.id
+        editForm.userId = this.state.user.userId
         dispatch(updateUser(editForm))
     }
 

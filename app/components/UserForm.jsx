@@ -9,13 +9,13 @@ class UserForm extends Component {
         super(props)
 
         this.state = {
-            registerForm: {
+            user: {
                 firstName: this.props.user.firstName,
                 lastName: this.props.user.lastName,
                 username: this.props.user.username,
                 password: '',
                 email: this.props.user.email,
-                balance: 0,
+                balance: this.props.user.balance,
                 roleId: 1
             }
         }
@@ -25,37 +25,41 @@ class UserForm extends Component {
         this.onFirstNameChange = this.onFirstNameChange.bind(this)
         this.onLastNameChange = this.onLastNameChange.bind(this)
         this.onEmailChange = this.onEmailChange.bind(this)
+        this.onBalanceChange = this.onBalanceChange.bind(this)
     }
 
     onLoginChange(event) {
         let login = event.target.value
-        this.state.registerForm.username = login
+        this.state.user.username = login
     }
 
     onPasswordChange(event) {
         let password = event.target.value
-        this.state.registerForm.password = password
+        this.state.user.password = password
     }
 
     onFirstNameChange(event) {
         let firstName = event.target.value
-        this.state.registerForm.firstName = firstName
+        this.state.user.firstName = firstName
     }
 
     onLastNameChange(event) {
         let lastName = event.target.value
-        this.state.registerForm.lastName = lastName
+        this.state.user.lastName = lastName
     }
 
     onEmailChange(event) {
         let email = event.target.value
-        this.state.registerForm.email = email
+        this.state.user.email = email
+    }
+
+    onBalanceChange(event) {
+        let balance = event.target.value
+        this.state.user.balance = balance
     }
 
     render() {
         const { alert, isFetching, isError, isRegistered, user, title, buttonText, onSubmit, redirectPage } = this.props
-
-        console.log(redirectPage)
 
         return (
             <div>
@@ -75,12 +79,12 @@ class UserForm extends Component {
 
                 <br></br>
 
-                <form onSubmit={e => {onSubmit(this.state.registerForm, e)}} className="form-horizontal" >
+                <form onSubmit={e => {onSubmit(this.state.user, e)}} className="form-horizontal" >
                     <div className="form-group">
                         <label className="control-label col-sm-2" htmlFor="login">Login:</label>
                         <div className="col-sm-10">
                             <input type="text" placeholder="Enter login" minLength="3" maxLength="30" required 
-                                   onChange={this.onLoginChange} value={this.state.registerForm.login} className="form-control" id="login"/>
+                                   onChange={this.onLoginChange} defaultValue={this.state.user.username} className="form-control" id="login"/>
                         </div>
                     </div>
 
@@ -88,7 +92,7 @@ class UserForm extends Component {
                         <label className="control-label col-sm-2" htmlFor="password">Password:</label>
                         <div className="col-sm-10">
                             <input type="password" placeholder="Enter password" minLength="3" maxLength="15" required 
-                                   onChange={this.onPasswordChange} value={this.state.registerForm.password} className="form-control" id="password" />
+                                   onChange={this.onPasswordChange} defaultValue={this.state.user.password} className="form-control" id="password" />
                         </div>
                     </div>
 
@@ -96,7 +100,7 @@ class UserForm extends Component {
                         <label className="control-label col-sm-2" htmlFor="firstName">First Name:</label>
                         <div className="col-sm-10">
                             <input type="text" placeholder="Enter First Name" minLength="2" maxLength="20" required 
-                                   onChange={this.onFirstNameChange} value={this.state.registerForm.firstName} className="form-control" id="firstName"/>
+                                   onChange={this.onFirstNameChange} defaultValue={this.state.user.firstName} className="form-control" id="firstName"/>
                         </div>
                     </div>
 
@@ -104,7 +108,7 @@ class UserForm extends Component {
                         <label className="control-label col-sm-2" htmlFor="lastName">Last Name:</label>
                         <div className="col-sm-10">
                             <input type="text" placeholder="Enter Last Name" minLength="2" maxLength="40" required 
-                                   onChange={this.onLastNameChange} value={this.state.registerForm.lastName} className="form-control" id="lastName"/>
+                                   onChange={this.onLastNameChange} defaultValue={this.state.user.lastName} className="form-control" id="lastName"/>
                         </div>
                     </div>
 
@@ -112,10 +116,18 @@ class UserForm extends Component {
                         <label className="control-label col-sm-2" htmlFor="email">Email:</label>
                         <div className="col-sm-10">
                             <input type="email" placeholder="Enter email" maxLength="50" required 
-                                   onChange={this.onEmailChange} className="form-control" id="email"/>
+                                   onChange={this.onEmailChange} defaultValue={this.state.user.email} className="form-control" id="email"/>
                         </div>
                     </div>
                         
+                    <div className="form-group">
+                        <label className="control-label col-sm-2" htmlFor="balance">Balance:</label>
+                        <div className="col-sm-10">
+                            <input type="number" placeholder="Enter balance" maxLength="50" required 
+                                   onChange={this.onBalanceChange} defaultValue={this.state.user.balance} className="form-control" id="balance"/>
+                        </div>
+                    </div>
+
                     <br></br>
 
                     <div className="form-group">        

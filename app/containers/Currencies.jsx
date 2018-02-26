@@ -30,11 +30,8 @@ class Currencies extends Component {
     componentDidMount() {
         const { dispatch } = this.props
 
-        if(token.checkToken(login.payload)) {
-            console.log("Logout currencies")
-            dispatch(logout())
-        }
-
+        if(token.checkToken(login.payload)) 
+            dispatch(logout())  
         dispatch(fetchCurrencies())
     }
 
@@ -46,6 +43,8 @@ class Currencies extends Component {
     handleRefresh() {
         const { dispatch } = this.props
         dispatch(fetchCurrencies())
+
+        return <Redirect to="/home" />
     }
 
     handleSaveUserCurrency(currencyCode) {

@@ -11,6 +11,7 @@ import NavigationBar from './NavigationBar.jsx'
 import LoginPage from './LoginPage.jsx'
 import RegisterPage from './RegisterPage.jsx'
 import EditPage from './EditPage.jsx'
+import Footer from '../components/Footer.jsx'
 
 const store = configureStore()
 
@@ -29,6 +30,8 @@ class Root extends Component {
                             <Route path='/edit' component={EditPage}/>
                         </Switch>
                     </div>
+
+                    <Footer />
                 </div>
             </Provider>
         )
